@@ -1,11 +1,11 @@
 import unittest
 
-from smartconfigparser import Config
+from smartconfigparser import smartconfigparser
 
 
 class TestCaseSmartConfigParser(unittest.TestCase):
     def setUp(self):
-        self.config = Config()
+        self.config = smartconfigparser.Config()
         self.config.read('config.ini')
 
     def test_get_value(self):
