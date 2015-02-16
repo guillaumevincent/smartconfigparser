@@ -1,12 +1,11 @@
 from distutils.core import setup
-from smartconfigparser import __version__
 
 setup(
     name='smartconfigparser',
-    version=__version__,
+    version='0.0.3',
     author='Guillaume Vincent',
     author_email='gvincent@oslab.fr',
-    packages=['smartconfigparser', 'smartconfigparser.tests'],
+    packages=['smartconfigparser'],
     url='http://gitlab.oslab.fr/oslab/smartconfigparser.git',
     license='wtfpl - Do what the fuck you want to public license',
     description='SmartConfigParser add missing default value in ConfigParser module',
