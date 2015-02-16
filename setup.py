@@ -5,7 +5,7 @@ setup(
     version='0.0.3',
     author='Guillaume Vincent',
     author_email='gvincent@oslab.fr',
-    packages=['smartconfigparser'],
+    py_modules=['smartconfigparser'],
     url='http://gitlab.oslab.fr/oslab/smartconfigparser.git',
     license='wtfpl - Do what the fuck you want to public license',
     description='SmartConfigParser add missing default value in ConfigParser module',
