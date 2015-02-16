@@ -1,6 +1,6 @@
-======
+=================
 SmartConfigParser
-======
+=================
 
 SmartConfigParser add missing default value in ConfigParser module.
 
@@ -29,7 +29,7 @@ Install it with pip:
 
 
 License
-=========
+=======
 SmartConfigParser's License is the WTFPL – Do What the Fuck You Want to Public License.
 
         DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
