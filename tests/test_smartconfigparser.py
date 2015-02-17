@@ -1,3 +1,5 @@
+import os
+import tempfile
 import unittest
 
 from smartconfigparser import Config
@@ -25,6 +27,21 @@ class TestCaseSmartConfigParser(unittest.TestCase):
 
     def test_get_default_value(self):
         self.assertEqual('default value', self.config.get('section_does_not_exist', 'user', 'default value'))
+
+    def test_set_default_value(self):
+        self.config.set('section_does_not_exist', 'user', 'Guillaume Vincent')
+        temp_file = tempfile.NamedTemporaryFile(suffix='.ini', dir=os.path.dirname(__file__))
+        with open(temp_file.name, 'wt') as configfile:
+            self.config.write(configfile)
+
+        with open(temp_file.name) as f: content = f.read()
+        self.assertTrue("user = Guillaume Vincent" in content)
+
+    def test_getlist(self):
+        self.assertEqual(['list', 'of', ' string'], self.config.getlist('default', 'list'))
+
+    def test_getlist_get_default_value(self):
+        self.assertEqual(['a', 'b', 'c'], self.config.getlist('section_does_not_exist', 'list', ['a', 'b', 'c']))
 
 
 if __name__ == '__main__':

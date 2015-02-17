@@ -28,3 +28,14 @@ class Config(ConfigParser):
             return ConfigParser.getboolean(self, section, option)
         else:
             return default
+
+    def set(self, section, option, value=None):
+        if not self.has_section(section):
+            self.add_section(section)
+        ConfigParser.set(self, section, option, value)
+
+    def getlist(self, section, option, default=None):
+        if self.has_option(section, option) or default is None:
+            return ConfigParser.get(self, section, option).split(',')
+        else:
+            return default
