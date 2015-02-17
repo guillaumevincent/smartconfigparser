@@ -29,6 +29,15 @@ Install it with pip:
 
     pip install smartconfigparser
 
+
+Requirements
+============
+
+Work with python 2.7 and python 3.4
+
+Tested with python 2.7.9 and python 3.4.2
+
+
 Usage
 =====
 
@@ -83,6 +92,89 @@ print(config.getlist('section_does_not_exists', 'list', []))
 # []
 ```
 
+## smartconfigparser.set
+
+config.set(section, option, value)
+
+same as ConfigParser.set() method except that it create section if section does not exists
+
+example 
+
+```python
+from smartconfigparser import Config
+
+config = Config()
+config.set('section_does_not_exist', 'user', 'Guillaume Vincent')
+with open('config.ini', 'wt') as configfile:
+    config.write(configfile)
+```
+
+config.ini
+
+    [section_does_not_exist]
+    user = Guillaume Vincent
+
+Test
+====
+
+install smartconfigparser
+
+    pip install smartconfigparser
+
+run tests
+
+    cd tests
+    python test_smartconfigparser.py
+    
+Example
+=======
+
+## DATABASE dict in django settings file
+
+```python
+from smartconfigparser import Config
+
+config = Config()
+config.read('config.ini')
+
+DATABASES = {
+    'default': {
+        'ENGINE': config.get('DATABASE', 'engine', 'django.db.backends.postgresql_psycopg2'),
+        'NAME': config.get('DATABASE', 'name', 'oslab'),
+        'USER': config.get('DATABASE', 'user', 'oslab'),
+        'PASSWORD': config.get('DATABASE', 'password', ''),
+        'HOST': config.get('DATABASE', 'host', ''),
+        'PORT': config.get('DATABASE', 'port', ''),
+    }
+}
+```
+
+config.ini file for a developer
+
+    [DATABASE]
+    engine = django.db.backends.sqlite3
+    name = db.sqlite3
+
+config.ini file for production server
+    
+    [DATABASE]
+    user = postgres_db_user
+    password = very_strong_password
+    host = localhost
+    port = 5432
+
+## ALLOWED_HOSTS list in django settings file
+
+```python
+ALLOWED_HOSTS = config.getlist('DJANGO', 'allowed_hosts', ['localhost', '127.0.0.1'])
+```
+
+config.ini file for production server
+
+    [DJANGO]
+    allowed_hosts=127.0.0.1,localhost,*.example.com
+    
+    
 License
 =======
 SmartConfigParser's License is the WTFPL – Do What the Fuck You Want to Public License.
