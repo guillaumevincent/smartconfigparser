@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='smartconfigparser',
-    version='0.0.4',
+    version='0.1.1',
     author='Guillaume Vincent',
     author_email='gvincent@oslab.fr',
     py_modules=['smartconfigparser'],

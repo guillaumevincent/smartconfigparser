@@ -1,7 +1,7 @@
 SmartConfigParser
 =================
 
-SmartConfigParser add missing default value in ConfigParser module.
+SmartConfigParser add missing default value in ConfigParser module. It use RawConfigParser module from ConfigParser. 
 
 ```python
 from smartconfigparser import Config
@@ -35,7 +35,7 @@ Requirements
 
 Work with python 2.7 and python 3.4
 
-Tested with python 2.7.9 and python 3.4.2
+Tested with python 2.7.10 and python 3.4.3
 
 
 Usage

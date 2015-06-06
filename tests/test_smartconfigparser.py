@@ -43,6 +43,8 @@ class TestCaseSmartConfigParser(unittest.TestCase):
     def test_getlist_get_default_value(self):
         self.assertEqual(['a', 'b', 'c'], self.config.getlist('section_does_not_exist', 'list', ['a', 'b', 'c']))
 
+    def test_unicode_char(self):
+        self.assertEqual('%s', self.config.get('raw', 'percent_s'))
 
 if __name__ == '__main__':
     unittest.main()
