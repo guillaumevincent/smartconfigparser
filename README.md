@@ -1,10 +1,13 @@
 [![Build Status](https://travis-ci.org/guillaumevincent/smartconfigparser.svg)](https://travis-ci.org/guillaumevincent/smartconfigparser)
 
-# SmartConfigParser
+# smartconfigparser
 
 version 0.1.1
 
-SmartConfigParser add missing default value in ConfigParser module. It use RawConfigParser module from ConfigParser. 
+smartconfigparser is a python module. It add missing default value in ConfigParser module.
+It use RawConfigParser module from ConfigParser.
+
+Work with python 2.7 and python 3.4 and 3.5
 
 ```python
 from smartconfigparser import Config
@@ -32,8 +35,6 @@ Install it with pip:
 
     pip install smartconfigparser
 
-
-Work with python 2.7 and python 3.4 and 3.5
 
 ## Test
 
