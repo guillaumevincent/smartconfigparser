@@ -1,5 +1,8 @@
-SmartConfigParser
-=================
+[![Build Status](https://travis-ci.org/guillaumevincent/smartconfigparser.svg)](https://travis-ci.org/guillaumevincent/smartconfigparser)
+
+# SmartConfigParser
+
+version 0.1.1
 
 SmartConfigParser add missing default value in ConfigParser module. It use RawConfigParser module from ConfigParser. 
 
@@ -22,33 +25,98 @@ print(user, age, weight, is_developer, hobbies)
 ```
 
 
-Installation
-============
+
+## Installation
 
 Install it with pip:
 
     pip install smartconfigparser
 
 
-Requirements
-============
+Work with python 2.7 and python 3.4 and 3.5
 
-Work with python 2.7 and python 3.4
+## Test
 
-Tested with python 2.7.10 and python 3.4.3
+run tests
+
+    python test_smartconfigparser.py
+
+## Example
+
+DJANGO default settings file
+
+```python
+import os
+from smartconfigparser import Config
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+CONFIG_PATH = os.path.join(BASE_DIR, 'config')
+if not os.path.exists(CONFIG_PATH):
+    os.makedirs(CONFIG_PATH)
+
+CONFIG_FILE = os.path.join(CONFIG_PATH, 'config.ini')
+config = Config()
+config.read(CONFIG_FILE)
+
+try:
+    SECRET_KEY = config.get('DJANGO', 'SECRET_KEY')
+except:
+    print('SECRET_KEY not found! Generating a new one...')
+    import random
+
+    SECRET_KEY = "".join([random.choice("abcdefghijklmnopqrstuvwxyz0123456789!@#$^&*(-_=+)") for i in range(50)])
+    if not config.has_section('DJANGO'):
+        config.add_section('DJANGO')
+    config.set('DJANGO', 'SECRET_KEY', SECRET_KEY)
+    with open(CONFIG_FILE, 'wt') as f:
+        config.write(f)
+
+DEBUG = config.getboolean('DJANGO', 'DEBUG', False)
+
+ALLOWED_HOSTS = config.getlist('DJANGO', 'ALLOWED_HOSTS', ['localhost', '127.0.0.1'])
+
+# ...
+
+DATABASES = {
+    'default': {
+        'ENGINE': config.get('DATABASE', 'engine', 'django.db.backends.sqlite3'),
+        'NAME': config.get('DATABASE', 'name', 'db.sqlite3'),
+        'USER': config.get('DATABASE', 'user', ''),
+        'PASSWORD': config.get('DATABASE', 'password', ''),
+        'HOST': config.get('DATABASE', 'host', ''),
+        'PORT': config.get('DATABASE', 'port', ''),
+    }
+}
+```
+
+config.ini file for a developer
+
+    [DJANGO]
+    DEBUG = True
 
 
-Usage
-=====
+config.ini file for production server
 
-## smartconfigparser.get
+    [DATABASE]
+    engine = django.db.backends.postgresql_psycopg2
+    name = oslab
+    user = postgres_db_user
+    password = very_strong_password
+    host = localhost
+    port = 5432
+
+
+## Usage
+
+### smartconfigparser.get
 
 config.get(section, option, default_value)
 
 same as ConfigParser.get() method except that it return default value if section or option does not exists
     
     
-## smartconfigparser.getint
+### smartconfigparser.getint
 
 
 config.getint(section, option, default_value)
@@ -56,7 +124,7 @@ config.getint(section, option, default_value)
 same as ConfigParser.getint() method except that it return default value if section or option does not exists
 
 
-## smartconfigparser.getfloat
+### smartconfigparser.getfloat
 
 
 config.getfloat(section, option, default_value)
@@ -65,14 +133,14 @@ same as ConfigParser.getfloat() method except that it return default value if se
 
 
 
-## smartconfigparser.getboolean
+### smartconfigparser.getboolean
 
 config.getboolean(section, option, default_value)
 
 same as ConfigParser.getboolean() method except that it return default value if section or option does not exists
 
 
-## smartconfigparser.getlist
+### smartconfigparser.getlist
 
 config.getlist(section, option, default_list)
 
@@ -92,7 +160,7 @@ print(config.getlist('section_does_not_exists', 'list', []))
 # []
 ```
 
-## smartconfigparser.set
+### smartconfigparser.set
 
 config.set(section, option, value)
 
@@ -114,69 +182,9 @@ config.ini
     [section_does_not_exist]
     user = Guillaume Vincent
 
-Test
-====
 
-install smartconfigparser
+## License
 
-    pip install smartconfigparser
-
-run tests
-
-    cd tests
-    python test_smartconfigparser.py
-    
-Example
-=======
-
-## DATABASE dict in django settings file
-
-```python
-from smartconfigparser import Config
-
-config = Config()
-config.read('config.ini')
-
-DATABASES = {
-    'default': {
-        'ENGINE': config.get('DATABASE', 'engine', 'django.db.backends.postgresql_psycopg2'),
-        'NAME': config.get('DATABASE', 'name', 'oslab'),
-        'USER': config.get('DATABASE', 'user', 'oslab'),
-        'PASSWORD': config.get('DATABASE', 'password', ''),
-        'HOST': config.get('DATABASE', 'host', ''),
-        'PORT': config.get('DATABASE', 'port', ''),
-    }
-}
-```
-
-config.ini file for a developer
-
-    [DATABASE]
-    engine = django.db.backends.sqlite3
-    name = db.sqlite3
-
-config.ini file for production server
-    
-    [DATABASE]
-    user = postgres_db_user
-    password = very_strong_password
-    host = localhost
-    port = 5432
-
-## ALLOWED_HOSTS list in django settings file
-
-```python
-ALLOWED_HOSTS = config.getlist('DJANGO', 'allowed_hosts', ['localhost', '127.0.0.1'])
-```
-
-config.ini file for production server
-
-    [DJANGO]
-    allowed_hosts=127.0.0.1,localhost,*.example.com
-    
-    
-License
-=======
 SmartConfigParser's License is the WTFPL – Do What the Fuck You Want to Public License.
 
         DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
